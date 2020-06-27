@@ -66,5 +66,33 @@ public class NewUfoSightingsDAO {
 		}
 	}
 
+	public List<String> loadForme(int anno) {
+		String sql = "SELECT DISTINCT s.shape " + 
+				"FROM sighting AS s " + 
+				"WHERE YEAR(s.datetime) = ? " + 
+				"ORDER BY s.shape ASC";
+		List<String> result = new ArrayList<String>();
+
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, anno);
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+			
+				result.add(res.getString("shape"));
+			}
+
+			conn.close();
+			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Errore connessione al database");
+			throw new RuntimeException("Error Connection Database");
+		}
+	}
+
 }
 

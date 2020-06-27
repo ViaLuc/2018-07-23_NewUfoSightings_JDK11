@@ -14,68 +14,91 @@ import javafx.scene.control.TextField;
 //controller turno A --> switchare al branch master_turnoB per turno B
 
 public class FXMLController {
-	
+
 	private Model model;
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+	@FXML
+	private URL location;
 
-    @FXML
-    private TextArea txtResult;
+	@FXML
+	private TextArea txtResult;
 
-    @FXML
-    private TextField txtAnno;
+	@FXML
+	private TextField txtAnno;
 
-    @FXML
-    private Button btnSelezionaAnno;
+	@FXML
+	private Button btnSelezionaAnno;
 
-    @FXML
-    private ComboBox<?> cmbBoxForma;
+	@FXML
+	private ComboBox<String> cmbBoxForma;
 
-    @FXML
-    private Button btnCreaGrafo;
+	@FXML
+	private Button btnCreaGrafo;
 
-    @FXML
-    private TextField txtT1;
+	@FXML
+	private TextField txtT1;
 
-    @FXML
-    private TextField txtAlfa;
+	@FXML
+	private TextField txtAlfa;
 
-    @FXML
-    private Button btnSimula;
+	@FXML
+	private Button btnSimula;
 
-    @FXML
-    void doCreaGrafo(ActionEvent event) {
+	@FXML
+	void doCreaGrafo(ActionEvent event) {
+		txtResult.clear();
 
-    }
+	}
 
-    @FXML
-    void doSelezionaAnno(ActionEvent event) {
+	@FXML
+	void doSelezionaAnno(ActionEvent event) {
+		txtResult.clear();
+		int anno;
 
-    }
+		try {
+			anno = Integer.parseInt(txtAnno.getText());
 
-    @FXML
-    void doSimula(ActionEvent event) {
+		} catch(NumberFormatException e) {
+			txtResult.appendText("ERRORE: inserire un valore numerico");
+			return;
+		}
 
-    }
+		if(anno < 1910 || anno > 2014) {
+			txtResult.appendText("ERRORE: inserire un anno compreso tra 1910 e 2014!");
+			return;
+		}
 
-    @FXML
-    void initialize() {
-        assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
-        assert txtAnno != null : "fx:id=\"txtAnno\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
-        assert btnSelezionaAnno != null : "fx:id=\"btnSelezionaAnno\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
-        assert cmbBoxForma != null : "fx:id=\"cmbBoxForma\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
-        assert btnCreaGrafo != null : "fx:id=\"btnCreaGrafo\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
-        assert txtT1 != null : "fx:id=\"txtT1\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
-        assert txtAlfa != null : "fx:id=\"txtAlfa\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
-        assert btnSimula != null : "fx:id=\"btnSimula\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+		cmbBoxForma.setDisable(false);
+		cmbBoxForma.getItems().clear();
+		cmbBoxForma.getItems().addAll(model.getForme(anno));
+		btnCreaGrafo.setDisable(false);
+	}
 
-    }
+	@FXML
+	void doSimula(ActionEvent event) {
+		txtResult.clear();
+	}
+
+	@FXML
+	void initialize() {
+		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+		assert txtAnno != null : "fx:id=\"txtAnno\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+		assert btnSelezionaAnno != null : "fx:id=\"btnSelezionaAnno\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+		assert cmbBoxForma != null : "fx:id=\"cmbBoxForma\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+		assert btnCreaGrafo != null : "fx:id=\"btnCreaGrafo\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+		assert txtT1 != null : "fx:id=\"txtT1\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+		assert txtAlfa != null : "fx:id=\"txtAlfa\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+		assert btnSimula != null : "fx:id=\"btnSimula\" was not injected: check your FXML file 'NewUfoSightings.fxml'.";
+
+	}
 
 	public void setModel(Model model) {
 		this.model = model;
+
+		cmbBoxForma.setDisable(true);
+		btnCreaGrafo.setDisable(true);
 	}
 }
