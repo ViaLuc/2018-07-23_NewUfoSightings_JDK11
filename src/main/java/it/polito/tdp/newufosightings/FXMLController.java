@@ -51,6 +51,29 @@ public class FXMLController {
 	void doCreaGrafo(ActionEvent event) {
 		txtResult.clear();
 
+		int anno;
+
+		try {
+			anno = Integer.parseInt(txtAnno.getText());
+
+		} catch(NumberFormatException e) {
+			txtResult.appendText("ERRORE: inserire un valore numerico");
+			return;
+		}
+
+		if(anno < 1910 || anno > 2014) {
+			txtResult.appendText("ERRORE: inserire un anno compreso tra 1910 e 2014!");
+			return;
+		}
+		
+		
+		String forma = cmbBoxForma.getValue();
+		if(forma == null) {
+			txtResult.appendText("ERRORE: devi selezionare una forma!");
+			return;
+		}
+		
+		model.creaGrafo(forma, anno);
 	}
 
 	@FXML
@@ -71,10 +94,8 @@ public class FXMLController {
 			return;
 		}
 
-		cmbBoxForma.setDisable(false);
-		cmbBoxForma.getItems().clear();
 		cmbBoxForma.getItems().addAll(model.getForme(anno));
-		btnCreaGrafo.setDisable(false);
+
 	}
 
 	@FXML
@@ -97,8 +118,5 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model;
-
-		cmbBoxForma.setDisable(true);
-		btnCreaGrafo.setDisable(true);
 	}
 }
